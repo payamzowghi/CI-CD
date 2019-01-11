@@ -16,7 +16,7 @@ Resources:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref 'resVPC'
-      CidrBlock: !Join ['.', ['10', '5', '2', '0/21']]
+      CidrBlock: !Join ['.', ['10', '5', '0', '0/21']]
       AvailabilityZone: !Select [0, !GetAZs '']
       Tags:
         - Key: Name
@@ -27,7 +27,7 @@ Resources:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref 'resVPC'
-      CidrBlock: !Join ['.', ['10', '10', '4', '0/23']]
+      CidrBlock: !Join ['.', ['10', '5', '8', '0/21']]
       AvailabilityZone: !Select [0, !GetAZs '']
       Tags:
         - Key: Name
