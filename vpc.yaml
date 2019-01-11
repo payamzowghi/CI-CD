@@ -23,3 +23,14 @@ Resources:
           Value: !Sub 'subnet-vpc-pub-a'
         - Key: Purpose
           Value: Public Subnet in first AZ (note that it doesn't necessarly resolve to AZ-a i.e. us-west-1a)
+  resSubnetPublicb:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref 'resVPC'
+      CidrBlock: !Join ['.', ['10', '5', '4', '0/21']]
+      AvailabilityZone: !Select [0, !GetAZs '']
+      Tags:
+        - Key: Name
+          Value: !Sub 'subnet-vpc-pub-b'
+        - Key: Purpose
+          Value: Public Subnet in first AZ (note that it doesn't necessarly resolve to AZ-a i.e. us-west-1a)
