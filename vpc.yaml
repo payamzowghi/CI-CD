@@ -27,7 +27,7 @@ Resources:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref 'resVPC'
-      CidrBlock: !Join ['.', ['10', '5', '4', '0/23']]
+      CidrBlock: !Join ['.', ['10', '10', '4', '0/23']]
       AvailabilityZone: !Select [0, !GetAZs '']
       Tags:
         - Key: Name
