@@ -1,0 +1,25 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >-
+  test.
+Resources:
+  resVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: !Sub '10.5.0.0/16'
+      EnableDnsSupport: 'true'
+      EnableDnsHostnames: 'true'
+      InstanceTenancy: default
+      Tags:
+        - Key: Name
+          Value: !Sub 'test-vpc'
+  resSubnetPublicA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref 'resVPC'
+      CidrBlock: !Join ['.', ['10', '5', '2', '0/21']]
+      AvailabilityZone: !Select [0, !GetAZs '']
+      Tags:
+        - Key: Name
+          Value: !Sub 'subnet-vpc-pub-a'
+        - Key: Purpose
+          Value: Public Subnet in first AZ (note that it doesn't necessarly resolve to AZ-a i.e. us-west-1a)
