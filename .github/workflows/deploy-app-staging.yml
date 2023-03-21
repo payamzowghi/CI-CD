@@ -12,7 +12,6 @@ env:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    if: contains($ {{github.event.release.tag_name}}, 'pre-prod')
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -43,6 +42,7 @@ jobs:
 #          aws-region: ${{ env.AWS_REGION }}
 
       - name: Deploy to S3
+        if: contains($ {{github.event.release.tag_name}}, 'pre-prod')
         uses: awact/s3-action@master
         with:
           args: --acl public-read --follow-symlinks --delete
