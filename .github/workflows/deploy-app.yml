@@ -1,7 +1,6 @@
 name: Deploy App on S3 bucket
 
 on:
-  workflow_dispatch: {}
   push:
     branches:
       - 'main'
