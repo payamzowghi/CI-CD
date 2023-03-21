@@ -3,7 +3,7 @@ name: Deploy App on S3 bucket
 on:
   push:
     branches:
-      - 'main'
+      - 'master'
 
 env:
   AWS_S3_BUCKET: "github-action-crewdle-test"
