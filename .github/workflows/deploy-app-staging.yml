@@ -16,6 +16,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - id: fetch-latest-release
+        uses: thebritican/fetch-latest-release@v1
+#        with:
+#          github_token: ${{ github.token }}
+
 #      - name: Use Node.js 16.x
 #        uses: actions/setup-node@v1
 #        with:
@@ -24,7 +29,7 @@ jobs:
 #          scope: '@crewdle'
 
       - name: Install dependencies
-        run: echo ${{ github.event.release.tag_name }}
+        run: echo ${{ steps.fetch-latest-release.outputs.name }}
 #        working-directory: functions
 
 #      - name: Install dependencies and build
