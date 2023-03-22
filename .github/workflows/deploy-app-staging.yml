@@ -68,7 +68,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_DEV }}
           SOURCE_DIR: ./www
 
-      - name: Deploy to S3
+      - name: Deploy to S3 release Pre-Prod
         if: ${{ contains(steps.latest_release.outputs.name, 'pre-prod') && env.BRANCH_NAME != 'dev'}}
         uses: awact/s3-action@master
         with:
@@ -80,7 +80,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_DEV }}
           SOURCE_DIR: ./www
 
-      - name: Deploy to S3
+      - name: Deploy to S3 release Production
         if: ${{ contains(steps.latest_release.outputs.name, 'production') && env.BRANCH_NAME != 'dev'}}
         uses: awact/s3-action@master
         with:
