@@ -21,7 +21,7 @@ jobs:
         uses: InsonusK/get-latest-release@v1.0.1
         with:
           myToken: ${{ github.token }}
-          exclude_types: "release"
+          exclude_types: "draft"
           view_top: 1
 
 #      - name: Use Node.js 16.x
