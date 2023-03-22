@@ -16,13 +16,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: "call action"
-        id: last_release
-        uses: InsonusK/get-latest-release@v1.0.1
+      - name: Get latest release
+        id: latest_release
+        uses: kaliber5/action-get-release@v1
         with:
-          myToken: ${{ github.token }}
-          exclude_types: "draft|release"
-          view_top: 1
+          token: ${{ github.token }}
+          latest: true
 
 #      - name: Use Node.js 16.x
 #        uses: actions/setup-node@v1
@@ -33,12 +32,12 @@ jobs:
 
       - name: Install dependencies
         run: |
-          echo "id: ${{ steps.last_release.outputs.id }}"
-          echo "name: ${{ steps.last_release.outputs.name }}"
-          echo "tag_name: ${{ steps.last_release.outputs.tag_name }}"
-          echo "created_at: ${{ steps.last_release.outputs.created_atd }}"
-          echo "draft: ${{ steps.last_release.outputs.draft }}"
-          echo "prerelease: ${{ steps.last_release.outputs.prerelease }}"
+          echo "id: ${{ steps.latest_release.outputs.id }}"
+          echo "name: ${{ steps.latest_release.outputs.name }}"
+          echo "tag_name: ${{ steps.latest_release.outputs.tag_name }}"
+          echo "created_at: ${{ steps.latest_release.outputs.created_at }}"
+          echo "draft: ${{ steps.latest_release.outputs.draft }}"
+          echo "prerelease: ${{ steps.latest_release.outputs.prerelease }}"
 #        working-directory: functions
 
 #      - name: Install dependencies and build
