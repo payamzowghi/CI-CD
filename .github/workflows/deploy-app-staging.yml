@@ -18,8 +18,8 @@ jobs:
 
       - id: fetch-latest-release
         uses: thebritican/fetch-latest-release@v2
-#        with:
-#          github_token: ${{ github.token }}
+        with:
+          github_token: ${{ github.token }}
 
 #      - name: Use Node.js 16.x
 #        uses: actions/setup-node@v1
