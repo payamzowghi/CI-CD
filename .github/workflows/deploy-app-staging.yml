@@ -16,10 +16,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - id: fetch-latest-release
-        uses: thebritican/fetch-latest-release@v2
+      - name: "call action"
+        id: last_release
+        uses: InsonusK/get-latest-release@v1.0.1
         with:
-          github_token: ${{ github.token }}
+          myToken: ${{ github.token }}
+          exclude_types: "release"
+          view_top: 1
 
 #      - name: Use Node.js 16.x
 #        uses: actions/setup-node@v1
@@ -29,7 +32,8 @@ jobs:
 #          scope: '@crewdle'
 
       - name: Install dependencies
-        run: echo ${{ steps.fetch-latest-release.outputs.name }}
+        run: |
+          echo "name: ${{ steps.last_release.outputs.name }}"
 #        working-directory: functions
 
 #      - name: Install dependencies and build
