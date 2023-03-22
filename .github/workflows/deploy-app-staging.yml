@@ -1,6 +1,9 @@
 name: Deploy App on S3 bucket
 
 on:
+  push:
+    branches:
+      - 'master'
   release:
     types: [published]
 
@@ -17,8 +20,9 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Extract branch name on push
-        run: echo "::set-env name=BRANCH_NAME::$(echo ${GITHUB_REF#refs/heads/})"
-        id: extract_branch
+        run: |
+          BRANCH_NAME="${GITHUB_REF##*/}"
+          echo "BRANCH_NAME=${BRANCH_NAME}" >> $GITHUB_ENV
 
       - name: Get latest release
         id: latest_release
@@ -37,7 +41,7 @@ jobs:
       - name: Latest Release Name
         run: |
           echo "name: ${{ steps.latest_release.outputs.name }}"
-          echo 'The branch name is' $BRANCH_NAME
+          echo "Branch name is ${{ env.BRANCH_NAME }}"
 
 #      - name: Install dependencies and build
 #        run: |
