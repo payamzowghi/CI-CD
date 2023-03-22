@@ -16,6 +16,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Extract branch name on push
+        run: echo "::set-env name=BRANCH_NAME::$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+
       - name: Get latest release
         id: latest_release
         uses: kaliber5/action-get-release@v1
@@ -30,15 +34,10 @@ jobs:
 #          registry-url: 'https://npm.pkg.github.com'
 #          scope: '@crewdle'
 
-      - name: Install dependencies
+      - name: Latest Release Name
         run: |
-          echo "id: ${{ steps.latest_release.outputs.id }}"
           echo "name: ${{ steps.latest_release.outputs.name }}"
-          echo "tag_name: ${{ steps.latest_release.outputs.tag_name }}"
-          echo "created_at: ${{ steps.latest_release.outputs.created_at }}"
-          echo "draft: ${{ steps.latest_release.outputs.draft }}"
-          echo "prerelease: ${{ steps.latest_release.outputs.prerelease }}"
-#        working-directory: functions
+          echo 'The branch name is' $BRANCH_NAME
 
 #      - name: Install dependencies and build
 #        run: |
