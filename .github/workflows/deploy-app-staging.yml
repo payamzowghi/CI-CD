@@ -24,11 +24,11 @@ jobs:
           BRANCH_NAME="${GITHUB_REF##*/}"
           echo "BRANCH_NAME=${BRANCH_NAME}" >> $GITHUB_ENV
 
-      steps:
-        - id: fetch-latest-release
-          uses: thebritican/fetch-latest-release@v1
-          with:
-            github_token: ${{ github.token }}
+      - name: Get latest release
+        id: fetch-latest-release
+        uses: thebritican/fetch-latest-release@v1
+        with:
+          github_token: ${{ github.token }}
 
       - name: Get latest release
         id: latest_release
