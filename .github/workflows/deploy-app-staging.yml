@@ -41,7 +41,7 @@ jobs:
       - name: Latest Release Name
         run: |
           echo "name: ${{ steps.latest_release.outputs.prerelease }}"
-          echo "Branch name is ${{ env.BRANCH_NAME }}"
+          echo "name: ${{ steps.latest_release.outputs.name }}"
 
 #      - name: Install dependencies and build
 #        run: |
