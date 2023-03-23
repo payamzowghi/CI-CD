@@ -5,7 +5,7 @@ on:
     branches:
       - 'dev'
   release:
-    types: [prereleased, published]
+    types: [prereleased]
 
 env:
   AWS_S3_BUCKET: "github-action-crewdle-test"
@@ -57,8 +57,8 @@ jobs:
       - name: Latest Release Name
         run: |
           echo "name: ${{ github.event.action }}"
-          echo "name: ${{ steps.latest_release.outputs.name }}"
-          echo "name: ${{ steps.fetch-latest-release.outputs.prerelease }}"
+#          echo "name: ${{ steps.latest_release.outputs.name }}"
+#          echo "name: ${{ steps.fetch-latest-release.outputs.prerelease }}"
 
 #      - name: Install dependencies and build
 #        run: |
@@ -88,7 +88,7 @@ jobs:
       - name: Deploy to S3 release Pre-Prod
 #        if: ${{ contains(steps.latest_release.outputs.name, 'pre-prod') && env.BRANCH_NAME != 'dev'}}
 #        if: ${{ steps.fetch-latest-release.outputs.prerelease == 'true' && env.BRANCH_NAME != 'dev'}}
-        if: ${{ github.event.action == 'prereleased' }}
+        if: ${{ github.event.action == 'prereleased' && env.BRANCH_NAME != 'dev'}}
         uses: awact/s3-action@master
         with:
           args: --acl public-read --follow-symlinks --delete
@@ -99,18 +99,18 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_DEV }}
           SOURCE_DIR: ./www
 
-      - name: Deploy to S3 release Production
-        if: ${{ github.event.action != 'prereleased' && env.BRANCH_NAME != 'dev'}}
-#        if: ${{ contains(steps.latest_release.outputs.name, 'production') && env.BRANCH_NAME != 'dev'}}
-        uses: awact/s3-action@master
-        with:
-          args: --acl public-read --follow-symlinks --delete
-        env:
-          AWS_S3_BUCKET: ${{ env.AWS_S3_BUCKET }}
-          AWS_S3_REGION: ${{ env.AWS_REGION }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_DEV }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_DEV }}
-          SOURCE_DIR: ./www
+#      - name: Deploy to S3 release Production
+#        if: ${{ github.event.action != 'prereleased' && env.BRANCH_NAME != 'dev'}}
+##        if: ${{ contains(steps.latest_release.outputs.name, 'production') && env.BRANCH_NAME != 'dev'}}
+#        uses: awact/s3-action@master
+#        with:
+#          args: --acl public-read --follow-symlinks --delete
+#        env:
+#          AWS_S3_BUCKET: ${{ env.AWS_S3_BUCKET }}
+#          AWS_S3_REGION: ${{ env.AWS_REGION }}
+#          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_DEV }}
+#          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_DEV }}
+#          SOURCE_DIR: ./www
 
 #      - name: Invalidate CloudFront cache
 #        if: env.CLOUDFRONT_DISTRIBUTION_ID != ''
