@@ -24,6 +24,12 @@ jobs:
           BRANCH_NAME="${GITHUB_REF##*/}"
           echo "BRANCH_NAME=${BRANCH_NAME}" >> $GITHUB_ENV
 
+      steps:
+        - id: fetch-latest-release
+          uses: thebritican/fetch-latest-release@v1
+          with:
+            github_token: ${{ github.token }}
+
       - name: Get latest release
         id: latest_release
         uses: kaliber5/action-get-release@v1
@@ -42,6 +48,7 @@ jobs:
         run: |
           echo "name: ${{ steps.latest_release.outputs.prerelease }}"
           echo "name: ${{ steps.latest_release.outputs.name }}"
+          echo "name: ${{ steps.fetch-latest-release.outputs.prerelease }}"
 
 #      - name: Install dependencies and build
 #        run: |
