@@ -30,7 +30,7 @@ jobs:
 #        with:
 #          github_token: ${{ github.token }}
       - name: Get latest Prerelease
-        if: ${{ github.event_name == 'prerelease' && github.event.action == 'published' }}
+        if: ${{ github.event_name == 'prerelease' }}
         id: fetch-latest-release
         uses: cardinalby/git-get-release-action@v1
         env:
@@ -56,7 +56,7 @@ jobs:
 
       - name: Latest Release Name
         run: |
-          echo "name: ${{ github.event_name }}"
+          echo "name: ${{ github.event.action }}"
           echo "name: ${{ steps.latest_release.outputs.name }}"
           echo "name: ${{ steps.fetch-latest-release.outputs.prerelease }}"
 
