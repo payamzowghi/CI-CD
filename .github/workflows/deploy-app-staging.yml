@@ -24,11 +24,18 @@ jobs:
           BRANCH_NAME="${GITHUB_REF##*/}"
           echo "BRANCH_NAME=${BRANCH_NAME}" >> $GITHUB_ENV
 
-      - name: Get latest release
+#      - name: Get latest release
+#        id: fetch-latest-release
+#        uses: thebritican/fetch-latest-release@v2.0.0
+#        with:
+#          github_token: ${{ github.token }}
+      - name: Get latest release v1
         id: fetch-latest-release
-        uses: thebritican/fetch-latest-release@v2.0.0
+        uses: cardinalby/git-get-release-action@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         with:
-          github_token: ${{ github.token }}
+          prerelease: true
 
       - name: Get latest release
         id: latest_release
@@ -46,6 +53,7 @@ jobs:
 
       - name: Latest Release Name
         run: |
+          echo "name: ${{ github.event_name }}"
           echo "name: ${{ steps.latest_release.outputs.prerelease }}"
           echo "name: ${{ steps.latest_release.outputs.name }}"
           echo "name: ${{ steps.fetch-latest-release.outputs.prerelease }}"
