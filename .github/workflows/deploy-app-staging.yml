@@ -29,23 +29,23 @@ jobs:
 #        uses: thebritican/fetch-latest-release@v2.0.0
 #        with:
 #          github_token: ${{ github.token }}
-      - name: Get latest Prerelease
-        if: ${{ github.event.action == 'prerelease' }}
-        id: fetch-latest-release
-        uses: cardinalby/git-get-release-action@v1
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          prerelease: true
-
-      - name: Get latest release
-        if: ${{ github.event.action == 'release' && github.event.action == 'published' }}
-        id: latest_release
-        uses: cardinalby/git-get-release-action@v1
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          latest: true
+#      - name: Get latest Prerelease
+#        if: ${{ github.event.action == 'prereleased' }}
+#        id: fetch-latest-release
+#        uses: cardinalby/git-get-release-action@v1
+#        env:
+#          GITHUB_TOKEN: ${{ github.token }}
+#        with:
+#          prerelease: true
+#
+#      - name: Get latest release
+#        if: ${{ github.event.action == 'released' }}
+#        id: latest_release
+#        uses: cardinalby/git-get-release-action@v1
+#        env:
+#          GITHUB_TOKEN: ${{ github.token }}
+#        with:
+#          latest: true
 
 #      - name: Use Node.js 16.x
 #        uses: actions/setup-node@v1
@@ -87,7 +87,8 @@ jobs:
 
       - name: Deploy to S3 release Pre-Prod
 #        if: ${{ contains(steps.latest_release.outputs.name, 'pre-prod') && env.BRANCH_NAME != 'dev'}}
-        if: ${{ steps.fetch-latest-release.outputs.prerelease == 'true' && env.BRANCH_NAME != 'dev'}}
+#        if: ${{ steps.fetch-latest-release.outputs.prerelease == 'true' && env.BRANCH_NAME != 'dev'}}
+        if: ${{ github.event.action == 'prereleased' }}
         uses: awact/s3-action@master
         with:
           args: --acl public-read --follow-symlinks --delete
@@ -99,7 +100,8 @@ jobs:
           SOURCE_DIR: ./www
 
       - name: Deploy to S3 release Production
-        if: ${{ steps.fetch-latest-release.outputs.prerelease == 'false' && env.BRANCH_NAME != 'dev'}}
+        if: ${{ github.event.action == 'released' }}
+#        if: ${{ steps.fetch-latest-release.outputs.prerelease == 'false' && env.BRANCH_NAME != 'dev'}}
 #        if: ${{ contains(steps.latest_release.outputs.name, 'production') && env.BRANCH_NAME != 'dev'}}
         uses: awact/s3-action@master
         with:
