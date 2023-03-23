@@ -29,7 +29,8 @@ jobs:
 #        uses: thebritican/fetch-latest-release@v2.0.0
 #        with:
 #          github_token: ${{ github.token }}
-      - name: Get latest release v1
+      - name: Get latest Prerelease
+        if: ${{ github.event_name == 'release' && github.event.action == 'published' }}
         id: fetch-latest-release
         uses: cardinalby/git-get-release-action@v1
         env:
@@ -38,10 +39,12 @@ jobs:
           prerelease: true
 
       - name: Get latest release
+        if: ${{ github.event_name == 'release' && github.event.action == 'published' }}
         id: latest_release
-        uses: kaliber5/action-get-release@v1
+        uses: cardinalby/git-get-release-action@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         with:
-          token: ${{ github.token }}
           latest: true
 
 #      - name: Use Node.js 16.x
