@@ -87,7 +87,8 @@ jobs:
           SOURCE_DIR: ./www
 
       - name: Deploy to S3 release Pre-Prod
-        if: ${{ contains(steps.latest_release.outputs.name, 'pre-prod') && env.BRANCH_NAME != 'dev'}}
+#        if: ${{ contains(steps.latest_release.outputs.name, 'pre-prod') && env.BRANCH_NAME != 'dev'}}
+        if: ${{ steps.fetch-latest-release.outputs.prerelease == 'true' && env.BRANCH_NAME != 'dev'}}
         uses: awact/s3-action@master
         with:
           args: --acl public-read --follow-symlinks --delete
@@ -99,7 +100,8 @@ jobs:
           SOURCE_DIR: ./www
 
       - name: Deploy to S3 release Production
-        if: ${{ contains(steps.latest_release.outputs.name, 'production') && env.BRANCH_NAME != 'dev'}}
+        if: ${{ steps.fetch-latest-release.outputs.prerelease == 'false' && env.BRANCH_NAME != 'dev'}}
+#        if: ${{ contains(steps.latest_release.outputs.name, 'production') && env.BRANCH_NAME != 'dev'}}
         uses: awact/s3-action@master
         with:
           args: --acl public-read --follow-symlinks --delete
