@@ -100,8 +100,7 @@ jobs:
           SOURCE_DIR: ./www
 
       - name: Deploy to S3 release Production
-        if: ${{ github.event.action == 'released' }}
-#        if: ${{ steps.fetch-latest-release.outputs.prerelease == 'false' && env.BRANCH_NAME != 'dev'}}
+        if: ${{ github.event.action != 'prereleased' && env.BRANCH_NAME != 'dev'}}
 #        if: ${{ contains(steps.latest_release.outputs.name, 'production') && env.BRANCH_NAME != 'dev'}}
         uses: awact/s3-action@master
         with:
