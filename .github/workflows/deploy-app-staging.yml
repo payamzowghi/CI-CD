@@ -57,6 +57,7 @@ jobs:
       - name: Latest Release Name
         run: |
           echo "name: ${{ github.event.action }}"
+          echo "name: ${{ github.event.release.prerelease }}"
 #          echo "name: ${{ steps.latest_release.outputs.name }}"
 #          echo "name: ${{ steps.fetch-latest-release.outputs.prerelease }}"
 
