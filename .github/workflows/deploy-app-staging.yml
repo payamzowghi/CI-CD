@@ -5,7 +5,7 @@ on:
     branches:
       - 'dev'
   release:
-    types: [created]
+    types: [published]
 
 env:
   AWS_S3_BUCKET: "github-action-crewdle-test"
